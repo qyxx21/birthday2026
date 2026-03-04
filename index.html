@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3.8 Birthday | Our 15 Years</title>
+    <title>3.8 Birthday | Our 10+ Years</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500&display=swap');
@@ -11,20 +11,61 @@
             font-family: 'Noto Serif SC', serif; 
             background-color: #fcfcfc;
             color: #2d3748;
+            overflow-x: hidden; 
         }
         .fade-in { animation: fadeIn 2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .photo-card { transition: transform 0.3s ease; }
-        .photo-card:hover { transform: scale(1.02); }
+        
+        .photo-card { 
+            transition: transform 0.3s ease, shadow 0.3s ease; 
+            cursor: zoom-in; 
+        }
+        .photo-card:hover { 
+            transform: scale(1.02); 
+            shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        #lightbox {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px); 
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: zoom-out; 
+        }
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        #lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.active #lightbox-img {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <div class="fixed top-6 right-6 z-50">
         <audio id="myAudio" loop>
-            <source src="bgm.mp3" type="audio/mpeg">
+            <source src="bg-music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
         </audio>
-        <button onclick="toggleMusic()" id="musicBtn" class="bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm border border-gray-100 text-sm">
+        <button onclick="toggleMusic()" id="musicBtn" class="bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm border border-gray-100 text-sm hover:bg-white transition-colors">
             🎵 播放音乐
         </button>
     </div>
@@ -38,29 +79,30 @@
     <main class="flex-grow max-w-2xl mx-auto px-6 py-8">
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 fade-in" style="animation-delay: 0.5s;">
-            <div class="photo-card text-center">
-                <img src="1.jpg" alt="Memory" class="w-full h-64 object-cover rounded-xl shadow-md bg-gray-100">
-                <p class="mt-4 text-xs text-gray-400 italic">能找到的最早生日互动ヾ(•ω•`)o</p>
+            <div class="photo-card text-center" onclick="openLightbox('1.jpg')">
+                <img src="photo1.jpg" alt="Memory" class="w-full h-64 object-cover rounded-xl shadow-md bg-gray-100">
+                <p class="mt-4 text-xs text-gray-400 italic">找到的小学生互动画面</p>
             </div>
-            <div class="photo-card text-center">
-                <img src="2.jpg" alt="Life" class="w-full h-64 object-cover rounded-xl shadow-md bg-gray-100">
-                <p class="mt-4 text-xs text-gray-400 italic">翻翻找找实在没找到合照 勉强凑合:D</p>
+            <div class="photo-card text-center" onclick="openLightbox('2.jpg')">
+                <img src="photo2.jpg" alt="Life" class="w-full h-64 object-cover rounded-xl shadow-md bg-gray-100">
+                <p class="mt-4 text-xs text-gray-400 italic">没有找到合照来凑数的一张（</p>
             </div>
         </div>
 
         <article class="space-y-12 text-center fade-in" style="animation-delay: 1s;">
             <div class="prose prose-slate mx-auto">
                 <p class="leading-loose text-gray-600">
-                    从小学课桌到大三，我们做了十几年的“同龄人”。<br>
+                    从小学课桌到大三考场，我们做了十几年的“同龄人”。<br>
                     祝你保持那种**热爱生活**的能量，<br>
                     在追求卓越的路上，也别忘了留些时间给路边的黄昏。<br>
-                    愿你在新的一岁，依然是那个闪闪发光的你，
+                    愿你在新的一岁，依然是那个闪闪发光的学霸，<br>
+                    也是那个能随时在生活里找到微光的普通人。
                 </p>
             </div>
 
             <div class="pt-8">
                 <button onclick="showWish()" class="px-8 py-3 border border-blue-100 rounded-full text-sm text-blue-500 hover:bg-blue-50 transition-colors">
-                    打开小纸条
+                    ovo
                 </button>
                 <div id="wish-box" class="hidden mt-8 p-6 bg-blue-50/50 rounded-2xl text-sm text-blue-600 italic">
                     “3月8日，我们都要快乐。”
@@ -72,6 +114,10 @@
     <footer class="py-12 text-center text-[10px] text-gray-300 tracking-widest">
         DESIGNED BY YOUR OLD FRIEND · 2026
     </footer>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Enlarged photo">
+    </div>
 
     <script>
         // 音乐控制
@@ -93,6 +139,27 @@
             box.classList.toggle('hidden');
             box.scrollIntoView({ behavior: 'smooth' });
         }
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(imgSrc) {
+            lightboxImg.src = imgSrc; 
+            lightbox.classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; 
+            // setTimeout(() => { lightboxImg.src = ''; }, 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
     </script>
 </body>
 </html>
