@@ -3,58 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3.8 Birthday | 2026</title>
+    <title>3.8 Birthday | Our 15 Years</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #f8f9fa; color: #334155; }
-        .fade-in { animation: fadeIn 2s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500&display=swap');
+        body { 
+            font-family: 'Noto Serif SC', serif; 
+            background-color: #fcfcfc;
+            color: #2d3748;
+        }
+        .fade-in { animation: fadeIn 2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .photo-card { transition: transform 0.3s ease; }
+        .photo-card:hover { transform: scale(1.02); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <header class="p-8 text-center fade-in">
-        <p class="text-xs tracking-widest text-slate-400 uppercase mb-2">March 8th</p>
-        <h1 class="text-3xl font-light tracking-tight">时光博物馆</h1>
-        <div class="w-10 h-px bg-slate-300 mx-auto mt-4"></div>
+    <div class="fixed top-6 right-6 z-50">
+        <audio id="myAudio" loop>
+            <source src="bgm.mp3" type="audio/mpeg">
+        </audio>
+        <button onclick="toggleMusic()" id="musicBtn" class="bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-sm border border-gray-100 text-sm">
+            🎵 播放音乐
+        </button>
+    </div>
+
+    <header class="pt-20 pb-10 text-center fade-in">
+        <p class="text-xs tracking-[0.3em] text-gray-400 uppercase mb-3">Est. 小学至今</p>
+        <h1 class="text-4xl font-light">二十一岁 · 生日快乐</h1>
+        <div class="w-12 h-[1px] bg-blue-200 mx-auto mt-6"></div>
     </header>
 
-    <main class="flex-grow px-6 max-w-2xl mx-auto w-full py-12">
+    <main class="flex-grow max-w-2xl mx-auto px-6 py-8">
         
-        <div class="text-center mb-16">
-            <p class="text-sm text-slate-500">这是我们共同庆祝生日的第 <span class="font-serif italic text-blue-600">10+</span> 年</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div class="space-y-4">
-                <h3 class="font-medium border-l-2 border-blue-400 pl-3">TO: 优秀的学霸君</h3>
-                <p class="text-sm leading-relaxed text-slate-600">
-                    大三是忙碌的一年。愿你在算法、实验或论文的间隙，依然能准时看到落日，享受每一个热爱生活的瞬间。祝前程似锦。
-                </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 fade-in" style="animation-delay: 0.5s;">
+            <div class="photo-card text-center">
+                <img src="1.jpg" alt="Memory" class="w-full h-64 object-cover rounded-xl shadow-md bg-gray-100">
+                <p class="mt-4 text-xs text-gray-400 italic">能找到的最早生日互动ヾ(•ω•`)o</p>
             </div>
-            <div class="space-y-4 text-right md:text-left">
-                <h3 class="font-medium border-r-2 md:border-r-0 md:border-l-2 border-green-400 pr-3 md:pl-3">TO: 21岁的自己</h3>
-                <p class="text-sm leading-relaxed text-slate-600">
-                    愿我也能像你一样坚定且纯粹。在这个我们共同的生日里，祝自己和老友，新一岁都有新的自由。
-                </p>
+            <div class="photo-card text-center">
+                <img src="2.jpg" alt="Life" class="w-full h-64 object-cover rounded-xl shadow-md bg-gray-100">
+                <p class="mt-4 text-xs text-gray-400 italic">翻翻找找实在没找到合照 勉强凑合:D</p>
             </div>
         </div>
 
-        <div class="mt-24 text-center">
-            <button onclick="showSecret()" class="text-xs text-slate-400 border border-slate-200 px-4 py-2 rounded-full hover:bg-white transition-all">
-                点击解锁老友暗号
-            </button>
-            <p id="secret-msg" class="mt-4 text-sm text-blue-500 hidden italic">“小学操场见！” —— 祝你今天快乐，不只是生日。</p>
-        </div>
+        <article class="space-y-12 text-center fade-in" style="animation-delay: 1s;">
+            <div class="prose prose-slate mx-auto">
+                <p class="leading-loose text-gray-600">
+                    从小学课桌到大三，我们做了十几年的“同龄人”。<br>
+                    祝你保持那种**热爱生活**的能量，<br>
+                    在追求卓越的路上，也别忘了留些时间给路边的黄昏。<br>
+                    愿你在新的一岁，依然是那个闪闪发光的你，
+                </p>
+            </div>
+
+            <div class="pt-8">
+                <button onclick="showWish()" class="px-8 py-3 border border-blue-100 rounded-full text-sm text-blue-500 hover:bg-blue-50 transition-colors">
+                    打开小纸条
+                </button>
+                <div id="wish-box" class="hidden mt-8 p-6 bg-blue-50/50 rounded-2xl text-sm text-blue-600 italic">
+                    “3月8日，我们都要快乐。”
+                </div>
+            </div>
+        </article>
     </main>
 
-    <footer class="p-8 text-center text-[10px] text-slate-300 tracking-widest uppercase">
-        Designed for a special friend | 2026
+    <footer class="py-12 text-center text-[10px] text-gray-300 tracking-widest">
+        DESIGNED BY YOUR OLD FRIEND · 2026
     </footer>
 
     <script>
-        function showSecret() {
-            document.getElementById('secret-msg').classList.toggle('hidden');
+        // 音乐控制
+        const audio = document.getElementById('myAudio');
+        const btn = document.getElementById('musicBtn');
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "⏸ 暂停音乐";
+            } else {
+                audio.pause();
+                btn.innerText = "🎵 播放音乐";
+            }
+        }
+
+        // 寄语解锁
+        function showWish() {
+            const box = document.getElementById('wish-box');
+            box.classList.toggle('hidden');
+            box.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
