@@ -9,35 +9,63 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500&display=swap');
         body { 
             font-family: 'Noto Serif SC', serif; 
-            /* 修改为温暖的奶油橘背景 */
             background-color: #FFFBEF;
-            /* 文字颜色调暖 */
             color: #4A5568;
             overflow-x: hidden; 
         }
         .fade-in { animation: fadeIn 2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* 图片卡片样式：增加拍立得边框感 */
         .photo-card { 
-            transition: transform 0.3s ease, shadow 0.3s ease; 
+            transition: transform 0.3s ease; 
             cursor: zoom-in;
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .photo-card:hover { 
-            transform: scale(1.02) rotate(1deg); /* 增加一点俏皮的旋转 */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* 放大预览层 (Lightbox) 样式 */
+        .photo-card:hover { transform: scale(1.02) rotate(1deg); }
         #lightbox {
-            display: none; 
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); /* 稍微加深背景 */
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1000;
+            justify-content: center; align-items: center; cursor: zoom-out;
+        }
+        #lightbox.active { display: flex; opacity: 1; }
+        #lightbox-img { max-width: 90%; max-height: 80%; border: 8px solid white; border-radius: 8px; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="fixed top-6 right-6 z-50">
+        <audio id="myAudio" loop><source src="bgm.mp3" type="audio/mpeg"></audio>
+        <button onclick="toggleMusic()" id="musicBtn" class="bg-orange-100 text-orange-600 p-3 rounded-full shadow-sm border border-orange-200 text-sm">🎵 播放音乐</button>
+    </div>
+
+    <header class="pt-20 pb-10 text-center fade-in">
+        <p class="text-xs tracking-[0.3em] text-orange-400 uppercase mb-3">Est. 小学至今</p>
+        <h1 class="text-4xl font-light text-gray-800">二十一岁 · 生日快乐</h1>
+        <div class="w-12 h-[2px] bg-orange-300 mx-auto mt-6 rounded-full"></div>
+    </header>
+
+    <main class="flex-grow max-w-2xl mx-auto px-6 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 fade-in">
+            <div class="photo-card text-center" onclick="openLightbox('1.jpg')">
+                <img src="1.jpg" class="w-full h-64 object-cover rounded-xl bg-gray-100">
+                <p class="mt-4 text-xs text-gray-500 italic">找到的小学生互动画面</p>
+            </div>
+            <div class="photo-card text-center" onclick="openLightbox('2.jpg')">
+                <img src="2.jpg" class="w-full h-64 object-cover rounded-xl bg-gray-100">
+                <p class="mt-4 text-xs text-gray-500 italic">没有找到合照来凑数的一张</p>
+            </div>
+        </div>
+
+        <article class="space-y-12 text-center fade-in">
+            <div class="prose prose-slate mx-auto">
+                <p class="leading-loose text-gray-700">
+                    从小学课桌到大三考场，我们做了十几年的“同龄人”。<br>
+                    祝你保持那种<strong class="text-orange-600">热爱生活</strong>的能量，<br>
+                    在追求卓越的路上，也别忘了留些时间给路边的黄昏。<br>
+                    愿你在新的一岁，依然是那个闪闪发光的学霸，<br>
+                    也是那个能随时在生活里找到微光的普通人。
+                </p>
+            </div>
+            <div class
