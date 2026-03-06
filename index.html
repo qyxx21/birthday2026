@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3.8 Birthday | Our 10+ Years</title>
+    <title>3.8 Birthday | Since 2017</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -12,27 +12,28 @@
         .fade-in { animation: fadeIn 2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* 更大的拍立得卡片 */
-        .photo-card { 
+        /* 拍立得单图样式 */
+        .photo-card-single { 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             cursor: zoom-in;
             background: white;
-            padding: 16px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            max-width: 500px;
+            margin: 0 auto;
         }
-        .photo-card:hover { transform: scale(1.05) rotate(-1deg); }
+        .photo-card-single:hover { transform: scale(1.02) rotate(0.5deg); }
         
         #lightbox {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 1000;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(15px); z-index: 1000;
             justify-content: center; align-items: center; cursor: zoom-out;
         }
         #lightbox.active { display: flex; }
-        #lightbox-img { max-width: 95%; max-height: 85%; border: 10px solid white; border-radius: 10px; }
+        #lightbox-img { max-width: 95%; max-height: 90%; border: 8px solid white; border-radius: 10px; }
 
-        /* 留言墙风格 */
-        .message-item { background: rgba(255,255,255,0.6); border-left: 4px solid #F6AD55; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem; }
+        .message-item { background: rgba(255,255,255,0.6); border-left: 4px solid #F6AD55; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem; text-align: left; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -43,20 +44,20 @@
     </div>
 
     <header class="pt-16 pb-8 text-center fade-in">
-        <p class="text-xs tracking-[0.4em] text-orange-400 uppercase mb-3 font-bold">Memory Lane</p>
+        <p class="text-xs tracking-[0.4em] text-orange-400 uppercase mb-3 font-bold">A Special Memory</p>
         <h1 class="text-4xl font-light text-gray-800">生日快乐 · 3.8</h1>
         <div class="w-16 h-[3px] bg-orange-300 mx-auto mt-6 rounded-full"></div>
     </header>
 
-    <main class="flex-grow max-w-4xl mx-auto px-6 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 fade-in" style="animation-delay: 0.3s;">
-            <div class="photo-card" onclick="openLightbox('1.jpg')">
-                <img src="1.jpg" class="w-full h-[400px] object-cover rounded-xl bg-gray-100">
-                <p class="mt-4 text-sm text-gray-500 text-center font-medium">找到的小学生互动画面</p>
-            </div>
-            <div class="photo-card" onclick="openLightbox('2.jpg')">
-                <img src="2.jpg" class="w-full h-[400px] object-cover rounded-xl bg-gray-100">
-                <p class="mt-4 text-sm text-gray-500 text-center font-medium">热爱生活的瞬间</p>
+    <main class="flex-grow max-w-4xl mx-auto px-6 py-8 w-full">
+        
+        <div class="mb-20 fade-in text-center" style="animation-delay: 0.3s;">
+            <div class="photo-card-single" onclick="openLightbox('1.jpg')">
+                <img src="1.jpg" class="w-full h-auto rounded-xl bg-gray-50 shadow-inner">
+                <div class="mt-6 space-y-2">
+                    <p class="text-sm text-gray-600 font-medium">“2017年的那天，我们也是这样祝福彼此”</p>
+                    <p class="text-[10px] text-gray-400 tracking-widest uppercase italic">Evidence of Friendship since 2017</p>
+                </div>
             </div>
         </div>
 
@@ -67,29 +68,27 @@
             </p>
             <button onclick="showWish()" class="mt-8 px-10 py-3 bg-orange-400 text-white rounded-full shadow-lg hover:bg-orange-500 transition-all">解锁悄悄话</button>
             <div id="wish-box" class="hidden mt-6 p-6 bg-white/50 rounded-2xl border-2 border-dashed border-orange-200 text-orange-700">
-                3月8日，愿我们都拥有新一岁的自由与浪漫。
+                从2017到2026，很高兴我们依然在彼此的生命里。<br>3月8日，愿我们都拥有新一岁的自由与浪漫。
             </div>
         </article>
 
-        <section class="max-w-xl mx-auto bg-white/30 p-8 rounded-3xl border border-orange-100 fade-in" style="animation-delay: 0.9s;">
+        <section class="max-w-xl mx-auto bg-white/30 p-8 rounded-3xl border border-orange-100 fade-in mb-12" style="animation-delay: 0.9s;">
             <h3 class="text-center mb-6 font-bold text-orange-600 tracking-widest uppercase">留言墙</h3>
-            <div id="message-list" class="max-h-60 overflow-y-auto mb-6 px-2">
-                </div>
+            <div id="message-list" class="max-h-60 overflow-y-auto mb-6 px-2"></div>
             <div class="flex gap-2">
-                <input type="text" id="msg-input" placeholder="写下你的愿望..." class="flex-grow p-3 rounded-xl border border-orange-100 outline-none focus:border-orange-400 text-sm">
-                <button onclick="addMessage()" class="bg-orange-400 text-white px-6 py-2 rounded-xl text-sm">发送</button>
+                <input type="text" id="msg-input" placeholder="写下今天的愿望..." class="flex-grow p-3 rounded-xl border border-orange-100 outline-none focus:border-orange-400 text-sm">
+                <button onclick="addMessage()" class="bg-orange-400 text-white px-6 py-2 rounded-xl text-sm whitespace-nowrap">发送</button>
             </div>
         </section>
     </main>
 
-    <footer class="py-12 text-center text-[10px] text-orange-300 tracking-widest">
-        SINCE ELEMENTARY SCHOOL · DESIGNED BY YOUR FRIEND
+    <footer class="py-12 text-center text-[10px] text-orange-300 tracking-widest uppercase">
+        Since 2017 · Designed for a special friend
     </footer>
 
     <div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
 
     <script>
-        // 初始化彩色纸屑
         window.onload = function() {
             confetti({
                 particleCount: 150,
@@ -109,7 +108,6 @@
 
         function showWish() {
             document.getElementById('wish-box').classList.toggle('hidden');
-            // 再次喷洒小量纸屑庆祝
             confetti({ particleCount: 50, spread: 50, origin: { y: 0.8 } });
         }
 
@@ -124,7 +122,6 @@
             document.body.style.overflow = '';
         }
 
-        // 留言墙逻辑
         function addMessage() {
             const input = document.getElementById('msg-input');
             if (!input.value.trim()) return;
@@ -135,8 +132,6 @@
             renderMessages();
         }
 
-        function loadMessages() { renderMessages(); }
-
         function renderMessages() {
             const list = document.getElementById('message-list');
             const msgs = JSON.parse(localStorage.getItem('bday_msgs') || '[]');
@@ -146,8 +141,8 @@
             }
             list.innerHTML = msgs.map(m => `
                 <div class="message-item">
-                    <p>${m.text}</p>
-                    <span class="text-[10px] text-gray-400">${m.time}</span>
+                    <p class="text-gray-700">${m.text}</p>
+                    <span class="text-[10px] text-gray-400 block mt-1">${m.time}</span>
                 </div>
             `).join('');
             list.scrollTop = list.scrollHeight;
