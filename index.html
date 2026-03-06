@@ -3,149 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3.8 Birthday | Since 2017</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>祝我们生日快乐~</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500&display=swap');
-        body { font-family: 'Noto Serif SC', serif; background-color: #FFFBEF; color: #4A5568; overflow-x: hidden; }
-        .fade-in { animation: fadeIn 2s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* 拍立得单图样式 */
-        .photo-card-single { 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            cursor: zoom-in;
-            background: white;
-            padding: 20px;
-            border-radius: 24px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-            max-width: 500px;
-            margin: 0 auto;
+        :root {
+            --primary-warm: #ffecd2;
+            --secondary-warm: #fcb69f;
+            --text-color: #5d4037;
+            --accent-gold: #d4a373;
         }
-        .photo-card-single:hover { transform: scale(1.02) rotate(0.5deg); }
-        
-        #lightbox {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); backdrop-filter: blur(15px); z-index: 1000;
-            justify-content: center; align-items: center; cursor: zoom-out;
-        }
-        #lightbox.active { display: flex; }
-        #lightbox-img { max-width: 95%; max-height: 90%; border: 8px solid white; border-radius: 10px; }
 
-        .message-item { background: rgba(255,255,255,0.6); border-left: 4px solid #F6AD55; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem; text-align: left; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Mali', 'STKaiti', 'Microsoft YaHei', cursive;
+            background: linear-gradient(120deg, var(--primary-warm) 0%, var(--secondary-warm) 100%);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s ease;
+        }
+
+        .hint-text {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            animation: bounceIn 1s ease, heartBeat 2s infinite 1s;
+        }
+
+        .open-btn {
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            background-color: white;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50px;
+            color: var(--accent-gold);
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            background-color: var(--accent-gold);
+            color: white;
+            box-shadow: 0 8px 25px rgba(212, 163, 115, 0.4);
+        }
+
+        #card-content {
+            display: none;
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 50px 40px;
+            
+            background-image: url('1.jpg');
+            background-size: cover;   
+            background-position: center; 
+            background-repeat: no-repeat;
+            /* --------------------------------------------------- */
+
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .wish-text {
+            line-height: 2;
+            font-size: 1.3rem;
+            min-height: 220px;
+            white-space: pre-wrap;
+            position: relative;
+            /* background: rgba(255, 255, 255, 0.5); border-radius: 15px; padding: 15px; */
+        }
+        .typing::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 35px;
+            font-size: 1.4rem;
+            font-style: italic;
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+        }
+
+        .decorator {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .dec-1 { top: -15px; left: 10%; background: #fcb69f; animation: float 4s infinite ease-in-out; }
+        .dec-2 { bottom: -15px; right: 10%; background: #ffecd2; animation: float 4s infinite ease-in-out 1s; }
+        .dec-3 { top: 50%; right: -15px; background: #d4a373; animation: float 4s infinite ease-in-out 2s; }
+
+        .message-wall {
+            margin-top: 55px;
+            border-top: 2px dashed #e0e0e0;
+            padding-top: 25px;
+            /* background: rgba(255, 255, 255, 0.7); border-radius: 10px; */
+        }
+
+        .wall-title {
+            font-size: 1.1rem;
+            color: #bcaaa4;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99;
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body>
 
-    <div class="fixed top-6 right-6 z-50 flex gap-2">
-        <audio id="myAudio" loop><source src="bgm.mp3" type="audio/mpeg"></audio>
-        <button onclick="toggleMusic()" id="musicBtn" class="bg-orange-100 text-orange-600 p-3 rounded-full shadow-sm border border-orange-200 text-sm">🎵 播放音乐</button>
+    <audio id="bgm" src="bgm.mp3" loop></audio>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div id="welcome-screen">
+        <div class="hint-text">你收到了神秘好友的贺卡！</div>
+        <button class="open-btn" onclick="openCard()">点击开启贺卡 ✨</button>
     </div>
 
-    <header class="pt-16 pb-8 text-center fade-in">
-        <p class="text-xs tracking-[0.4em] text-orange-400 uppercase mb-3 font-bold">A Special Memory</p>
-        <h1 class="text-4xl font-light text-gray-800">生日快乐 · 3.8</h1>
-        <div class="w-16 h-[3px] bg-orange-300 mx-auto mt-6 rounded-full"></div>
-    </header>
+    <div id="card-content">
+        <div class="decorator dec-1"></div>
+        <div class="decorator dec-2"></div>
+        <div class="decorator dec-3"></div>
 
-    <main class="flex-grow max-w-4xl mx-auto px-6 py-8 w-full">
+        <div class="wish-text typing" id="wish-typing">
+            </div>
         
-        <div class="mb-20 fade-in text-center" style="animation-delay: 0.3s;">
-            <div class="photo-card-single" onclick="openLightbox('1.jpg')">
-                <img src="1.jpg" class="w-full h-auto rounded-xl bg-gray-50 shadow-inner">
-                <div class="mt-6 space-y-2">
-                    <p class="text-sm text-gray-600 font-medium">“2017年的那天，我们也是这样祝福彼此”</p>
-                    <p class="text-[10px] text-gray-400 tracking-widest uppercase italic">Evidence of Friendship since 2017</p>
-                </div>
+        <div class="signature">—— 裘忆潇</div>
+
+        <div class="message-wall">
+            <div class="wall-title">· 留言墙 ·</div>
+            <div id="messages">
+                <p style="font-size: 1rem; color: #a1887f; text-align: center;">暂无留言，长按屏幕可以留下手/脚印...</p>
             </div>
         </div>
+    </div>
 
-        <article class="max-w-2xl mx-auto text-center mb-20 fade-in" style="animation-delay: 0.6s;">
-            <p class="leading-loose text-lg text-gray-700 italic">
-                “愿你在追求卓越的路上，<br>
-                也别忘了留些时间给路边的黄昏。”
-            </p>
-            <button onclick="showWish()" class="mt-8 px-10 py-3 bg-orange-400 text-white rounded-full shadow-lg hover:bg-orange-500 transition-all">解锁悄悄话</button>
-            <div id="wish-box" class="hidden mt-6 p-6 bg-white/50 rounded-2xl border-2 border-dashed border-orange-200 text-orange-700">
-                从2017到2026，很高兴我们依然在彼此的生命里。<br>3月8日，愿我们都拥有新一岁的自由与浪漫。
-            </div>
-        </article>
-
-        <section class="max-w-xl mx-auto bg-white/30 p-8 rounded-3xl border border-orange-100 fade-in mb-12" style="animation-delay: 0.9s;">
-            <h3 class="text-center mb-6 font-bold text-orange-600 tracking-widest uppercase">留言墙</h3>
-            <div id="message-list" class="max-h-60 overflow-y-auto mb-6 px-2"></div>
-            <div class="flex gap-2">
-                <input type="text" id="msg-input" placeholder="写下今天的愿望..." class="flex-grow p-3 rounded-xl border border-orange-100 outline-none focus:border-orange-400 text-sm">
-                <button onclick="addMessage()" class="bg-orange-400 text-white px-6 py-2 rounded-xl text-sm whitespace-nowrap">发送</button>
-            </div>
-        </section>
-    </main>
-
-    <footer class="py-12 text-center text-[10px] text-orange-300 tracking-widest uppercase">
-        Since 2017 · Designed for a special friend
-    </footer>
-
-    <div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
-        window.onload = function() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#F6AD55', '#F687B3', '#68D391', '#63B3ED']
-            });
-            loadMessages();
-        };
+        const fullWishText = `
+To 五角星:
+    哇！又是我们共同的“破壳日”啦！🎂
+    这两天虽然忙得脚不沾地，但想到这个网页，还是觉得一定要坚持把它写完。毕竟，能遇到一个“同月同日生”，且从小学、初中到高中都同一个学校的人，这概率大概比中彩票还要低吧？OvO虽然我从来没写过html代码，这个网页看起来也有点“简陋”orz（不要嫌弃！），
+但它承载了我最真实的祝福。
+    这么多年来(14年了吧？)，我们一直互相鼓励，见证了彼此最青涩到逐渐独立成熟的样子。虽然现在我们在不同的领域探索，但这种“老战友”般的默契，始终是我底气的一部分。
+    作为“同龄同日”的战友，我想对你说：
+        即使我们要一起奔三了（bushi），也请继续保持对生活的热爱和对未来的憧憬。祝愿你在医学的道路上披荆斩棘，成为一名超级厉害的医生！愿我们在各自热爱的领域里发光发热，顶峰相见！
+        最后，祝我们生日快乐，永远清醒且独立，温柔且坚定！✨`;
+        // -------------------------------------------
 
-        function toggleMusic() {
-            const audio = document.getElementById('myAudio');
-            const btn = document.getElementById('musicBtn');
-            if (audio.paused) { audio.play(); btn.innerText = "⏸ 暂停音乐"; } 
-            else { audio.pause(); btn.innerText = "🎵 播放音乐"; }
+        function openCard() {
+            const audio = document.getElementById('bgm');
+            audio.play().catch(e => console.log("需用户交互触发音频"));
+
+            fireConfetti();
+
+            const welcome = document.getElementById('welcome-screen');
+            const card = document.getElementById('card-content');
+
+            welcome.style.opacity = '0';
+            setTimeout(() => {
+                welcome.style.display = 'none';
+                card.style.display = 'block';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                    startTyping();
+                }, 100);
+            }, 1000);
         }
 
-        function showWish() {
-            document.getElementById('wish-box').classList.toggle('hidden');
-            confetti({ particleCount: 50, spread: 50, origin: { y: 0.8 } });
-        }
+        function startTyping() {
+            const textElement = document.getElementById('wish-typing');
+            let index = 0;
+            const speed = 100;
 
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function addMessage() {
-            const input = document.getElementById('msg-input');
-            if (!input.value.trim()) return;
-            const msgs = JSON.parse(localStorage.getItem('bday_msgs') || '[]');
-            msgs.push({ text: input.value, time: new Date().toLocaleString() });
-            localStorage.setItem('bday_msgs', JSON.stringify(msgs));
-            input.value = '';
-            renderMessages();
-        }
-
-        function renderMessages() {
-            const list = document.getElementById('message-list');
-            const msgs = JSON.parse(localStorage.getItem('bday_msgs') || '[]');
-            if (msgs.length === 0) {
-                list.innerHTML = '<p class="text-center text-xs text-gray-400">还没有留言，写下第一句吧...</p>';
-                return;
+            function type() {
+                if (index < fullWishText.length) {
+                    textElement.innerHTML += fullWishText.charAt(index);
+                    index++;
+                    setTimeout(type, speed);
+                } else {
+                    textElement.classList.remove('typing');
+                }
             }
-            list.innerHTML = msgs.map(m => `
-                <div class="message-item">
-                    <p class="text-gray-700">${m.text}</p>
-                    <span class="text-[10px] text-gray-400 block mt-1">${m.time}</span>
-                </div>
-            `).join('');
-            list.scrollTop = list.scrollHeight;
+            type();
+        }
+        function fireConfetti() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#ffecd2', '#fcb69f', '#fff'] }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#d4a373', '#fcb69f', '#fff'] }));
+            }, 250);
         }
     </script>
 </body>
